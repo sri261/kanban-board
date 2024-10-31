@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
+import { login } from "../services/authService.js"
 
-const name = ref('')
+const email = ref('')
 const password = ref('')
 
 const onSubmit = () => {
-    console.log(name.value, email.value)
+    console.log(email.value, password.value)
+    login({ email: email.value, password: password.value })
 }
 </script>
 
