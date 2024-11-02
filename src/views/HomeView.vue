@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import Column from '@/components/Column.vue';
 </script>
 
 <template>
-  Home View
+  <div class="flex gap-4 overflow-x-auto p-4">
+    <Column />
+  </div>
 </template>
