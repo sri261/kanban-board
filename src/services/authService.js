@@ -4,7 +4,7 @@ import router from "../router";
 export const login = async ({ email, password }) => {
   try {
     const { token } = await api
-      .post("/auth/login", { email, password })
+      .post("/api/login", { email, password })
       .then(extractStandardResponse);
     localStorage.setItem("token", token);
     router.push("/");
