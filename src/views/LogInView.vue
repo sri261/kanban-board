@@ -6,7 +6,6 @@ const email = ref('')
 const password = ref('')
 
 const onSubmit = () => {
-    console.log(email.value, password.value)
     login({ email: email.value, password: password.value })
 }
 </script>
