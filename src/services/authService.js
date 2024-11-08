@@ -11,6 +11,11 @@ export const login = async ({ email, password }) => {
   } catch (error) {}
 };
 
+export const logout = async () => {
+  localStorage.clear("token");
+  router.push("/login");
+};
+
 export const checkIfTokenExists = () => {
   return !!localStorage.getItem("token");
 };
