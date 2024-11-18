@@ -3,10 +3,9 @@ import { ref, defineProps } from 'vue'
 import { addColumn } from '../services/columnService'
 
 const props = defineProps({
-    refreshColumns: () => { }
+    refreshColumns: Function
 })
 
-const { refreshColumns } = props
 
 const showAddColumnForm = ref(false)
 
@@ -19,7 +18,7 @@ const onButtonClick = () => {
 
 const onAddClick = () => {
     addColumn({ board_id: 9, title: title.value, position: 9 }).then(() => {
-        refreshColumns
+        props.refreshColumns()
         title.value = ''
         showAddColumnForm.value = false
     })
