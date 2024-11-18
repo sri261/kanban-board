@@ -21,7 +21,7 @@ onMounted(() => {
 
 <template>
   <div class="flex gap-4 overflow-x-auto p-4">
-    <Column v-for="(column, index) in columns" :key="index" :data="column" />
+    <Column v-for="(column, index) in columns" :key="index" :data="column" :refreshColumns="fetchColumns" />
     <AddColumn :refreshColumns="fetchColumns" />
   </div>
 </template>

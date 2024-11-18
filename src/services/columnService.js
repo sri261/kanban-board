@@ -21,3 +21,14 @@ export const addColumn = async ({ board_id, title, position }) => {
     console.log(error);
   }
 };
+
+export const deleteColumn = async (column_id) => {
+  try {
+    const res = await api
+      .delete(`/api/columns/${column_id}`)
+      .then(extractStandardResponse);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
