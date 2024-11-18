@@ -10,3 +10,14 @@ export const getColumns = async (board_id) => {
     console.log(error);
   }
 };
+
+export const addColumn = async ({ board_id, title, position }) => {
+  try {
+    const res = await api
+      .post(`/api/columns/${board_id}`, { title, position })
+      .then(extractStandardResponse);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
