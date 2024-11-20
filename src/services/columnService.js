@@ -32,3 +32,14 @@ export const deleteColumn = async (column_id) => {
     console.log(error);
   }
 };
+
+export const editColumn = async (title, column_id) => {
+  try {
+    const res = await api
+      .put(`/api/columns/${column_id}`, { title })
+      .then(extractStandardResponse);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,8 +1,9 @@
 <script setup>
 import Card from './Card.vue';
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
 import { Icon } from '@iconify/vue';
-import { deleteColumn } from '../services/columnService'
+import { deleteColumn, editColumn } from '../services/columnService'
+
 
 const props = defineProps({
     data: Object,
@@ -12,8 +13,25 @@ const props = defineProps({
 const { id, title } = props.data || {};
 
 
+const editTitle = ref(title || '')
+const showEditTitle = ref(false)
+
+
+
 const onDeleteClick = () => {
     deleteColumn(id).then(() => { props.refreshColumns() })
+}
+
+const onTitleClick = () => {
+    showEditTitle.value = true
+}
+
+const onBlur = () => {
+    showEditTitle.value = false
+    editColumn(editTitle.value, id).then(() => {
+        props.refreshColumns()
+    })
+
 }
 
 </script>
@@ -21,10 +39,14 @@ const onDeleteClick = () => {
 <template>
     <div class="flex flex-col bg-gray-100 rounded-lg p-4 min-w-[250px] mt-4">
         <div class="flex justify-between">
-            <h2 class="font-bold text-xl text-gray-700 mb-4">{{ title }}</h2>
-            <button
+            <input v-if="showEditTitle" type="text"
+                class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                v-model="editTitle" @blur="onBlur" />
+            <h2 v-else="!showEditTitle" class="font-bold text-xl text-gray-700 mb-4" @click="onTitleClick">{{ title }}
+            </h2>
+            <button @click="onDeleteClick"
                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-                <Icon icon="material-symbols:delete-sharp" @click="onDeleteClick" />
+                <Icon icon="material-symbols:delete-sharp" />
             </button>
         </div>
         <div>
