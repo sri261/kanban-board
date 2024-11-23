@@ -18,7 +18,7 @@ const onButtonClick = () => {
 }
 
 const onAddClick = () => {
-    addColumn({ board_id: 9, title: title.value, position: 9 }).then(() => {
+    addColumn({ board_id: 13, title: title.value, position: 9 }).then(() => {
         props.refreshColumns()
         title.value = ''
         showAddColumnForm.value = false

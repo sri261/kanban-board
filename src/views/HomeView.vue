@@ -10,7 +10,7 @@ const columns = ref([])
 const loading = ref(true)
 
 const fetchColumns = () => {
-  getColumns(9).then((res) => {
+  getColumns(13).then((res) => {
     loading.value = false
     columns.value = res
   }).catch(() => {
