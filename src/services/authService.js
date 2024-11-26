@@ -3,11 +3,14 @@ import router from "../router";
 
 export const login = async ({ email, password }) => {
   try {
-    const { token } = await api
-      .post("/api/login", { email, password })
-      .then(extractStandardResponse);
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    localStorage.setItem("token", token);
+    await api.post("/api/login", { email, password }).then((res) => {
+      const {
+        data: { token },
+      } = res;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      localStorage.setItem("token", token);
+      return extractStandardResponse(res);
+    });
     router.push("/");
   } catch (error) {}
 };
