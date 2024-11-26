@@ -1,9 +1,8 @@
 <script setup>
 import Column from '@/components/Column.vue';
 import AddColumn from '../components/AddColumn.vue'
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getColumns } from "../services/columnService.js"
-import { token } from '../api/api.js'
 import ColumnLoadingSkeleton from '../components/ColumnLoadingSkeleton.vue'
 
 const columns = ref([])
@@ -23,9 +22,6 @@ onMounted(() => {
   fetchColumns()
 })
 
-watch(token, () => {
-  fetchColumns()
-})
 
 </script>
 
