@@ -20,6 +20,17 @@ export const logout = async () => {
   router.push("/login");
 };
 
+export const refresh = async () => {
+  const refresh_token = localStorage.getItem("refresh_token");
+  try {
+    return await api
+      .post("/api/refresh", { refresh_token })
+      .then(extractStandardResponse);
+  } catch (error) {
+    return error;
+  }
+};
+
 export const checkIfTokenExists = () => {
   return !!localStorage.getItem("access_token");
 };
