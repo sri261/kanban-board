@@ -5,10 +5,12 @@ export const login = async ({ email, password }) => {
   try {
     await api.post("/api/login", { email, password }).then((res) => {
       const {
-        data: { access_token },
+        data: { access_token, refresh_token },
       } = res;
       api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
       localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+
       return extractStandardResponse(res);
     });
     router.push("/");
@@ -27,7 +29,7 @@ export const refresh = async () => {
       .post("/api/refresh", { refresh_token })
       .then(extractStandardResponse);
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

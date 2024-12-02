@@ -1,5 +1,6 @@
 import { refresh } from "@/services/authService";
 import axios from "axios";
+import router from "../router";
 
 export const access_token = localStorage.getItem("access_token");
 
@@ -18,8 +19,14 @@ api.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
+    if (originalRequest.url.includes("/refresh")) {
+      router.push("/login");
+      return Promise.reject(err);
+    }
+
     if (err.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       try {
         const { refresh_token, access_token } = await refresh();
         localStorage.setItem("refresh_token", refresh_token);
@@ -29,8 +36,6 @@ api.interceptors.response.use(
         originalRequest._skipAuth = true;
         return api(originalRequest);
       } catch (error) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
         return Promise.reject(error);
       }
     }
