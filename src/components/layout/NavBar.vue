@@ -8,7 +8,7 @@ const onLogout = () => {
 </script>
 
 <template>
-    <nav class="flex justify-between items-center p-4 border-b-4 shadow-lg fixed top-0 left-0 right-0 bg-white z-50">
+    <nav class="flex justify-between items-center p-4 border-b-4 shadow-lg fixed top-0 left-0 right-0 bg-white z-30">
 
         <div>LOGO</div>
         <div>

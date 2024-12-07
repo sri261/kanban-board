@@ -1,14 +1,14 @@
 <script setup>
 import { defineProps } from 'vue'
 import { Icon } from '@iconify/vue';
-import { deleteColumn } from '../services/boardsServices'
+import { deleteBoard } from '../../services/boardsServices.js'
 
 const props = defineProps({ data: Object, deleteCompleted: Function })
 
 const { data: { title, id }, deleteCompleted } = props || {}
 
 const onDeleteClick = () => {
-    deleteColumn(id).then(() => {
+    deleteBoard(id).then(() => {
         deleteCompleted()
     }).catch(() => { })
 }
