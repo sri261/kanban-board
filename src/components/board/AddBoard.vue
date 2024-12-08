@@ -8,7 +8,7 @@ const props = defineProps({ addCompleted: Function, user_id: Number })
 
 const { addCompleted, user_id } = props
 
-const visible = ref(true)
+const visible = ref(false)
 
 const onAddClick = () => {
     visible.value = true

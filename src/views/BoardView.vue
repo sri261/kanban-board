@@ -4,12 +4,17 @@ import AddColumn from '../components/AddColumn.vue'
 import { ref, onMounted } from 'vue'
 import { getColumns } from "../services/columnService.js"
 import ColumnLoadingSkeleton from '../components/ColumnLoadingSkeleton.vue'
+import { useRoute } from 'vue-router'
 
 const columns = ref([])
 const loading = ref(true)
 
+const route = useRoute()
+
+
+
 const fetchColumns = () => {
-  getColumns(13).then((res) => {
+  getColumns(route.params.id).then((res) => {
     loading.value = false
     columns.value = res
   }).catch(() => {

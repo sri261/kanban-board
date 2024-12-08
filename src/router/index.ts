@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "../views/BoardView.vue";
 import LogInView from "../views/LogInView.vue";
 import BoardsView from "../views/BoardsView.vue";
 
@@ -20,14 +20,14 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
-          path: "",
-          name: "home",
-          component: HomeView,
-        },
-        {
           path: "/boards",
           name: "boards",
           component: BoardsView,
+        },
+        {
+          path: "/board/:id",
+          name: "board",
+          component: HomeView,
         },
       ],
     },

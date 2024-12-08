@@ -13,7 +13,7 @@ export const login = async ({ email, password }) => {
 
       return extractStandardResponse(res);
     });
-    router.push("/");
+    router.push("/boards");
   } catch (error) {}
 };
 
