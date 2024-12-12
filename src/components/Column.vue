@@ -1,9 +1,8 @@
 <script setup>
 import Card from './Card.vue';
-import { defineProps, ref, onMounted } from 'vue'
+import { defineProps, ref } from 'vue'
 import { Icon } from '@iconify/vue';
 import { deleteColumn, editColumn } from '../services/columnService'
-import { getCards } from '../services/cardServices.js'
 import CardLoadingSkeleton from '../components/CardLoadingSkeleton.vue'
 
 const props = defineProps({
@@ -11,12 +10,11 @@ const props = defineProps({
     refreshColumns: Function
 })
 
-const { id, title } = props.data || {};
+const { id, title, cards } = props.data || {};
 
 
 const editTitle = ref(title || '')
 const showEditTitle = ref(false)
-const cards = ref([])
 const cardsLoading = ref(false)
 
 
@@ -36,20 +34,6 @@ const onBlur = () => {
     })
 
 }
-
-const fetchCards = async (id) => {
-    cardsLoading.value = true
-    getCards(id).then((res) => {
-        cards.value = res
-        cardsLoading.value = false
-    }).catch(() => {
-        cardsLoading.value = false
-    })
-}
-
-onMounted(() => {
-    fetchCards(id)
-})
 
 </script>
 

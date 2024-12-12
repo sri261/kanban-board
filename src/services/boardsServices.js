@@ -43,3 +43,14 @@ export const editBoard = async (title, user_id) => {
     console.log(error);
   }
 };
+
+export const getBoard = async (board_id) => {
+  try {
+    const res = await api
+      .get(`/api/board/${board_id}`)
+      .then(extractStandardResponse);
+    return res[0];
+  } catch (error) {
+    return error;
+  }
+};
