@@ -33,10 +33,10 @@ export const deleteBoard = async (board_id) => {
   }
 };
 
-export const editBoard = async (title, user_id) => {
+export const editBoard = async (board_id, body) => {
   try {
     const res = await api
-      .put(`/api/board/${user_id}`, { title })
+      .put(`/api/board/${board_id}`, { ...body })
       .then(extractStandardResponse);
     return res;
   } catch (error) {

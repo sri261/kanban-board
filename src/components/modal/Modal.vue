@@ -1,14 +1,14 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 
-const props = defineProps({ isVisible: Boolean, header: Object, content: Object })
+const props = defineProps({ isVisible: Boolean, header: Object, content: Object, title: String })
 const emit = defineEmits(['cancel', 'confirm'])
 
 
 const emitCancel = () => emit('cancel')
 const emitConfirm = () => emit('confirm')
 
-const { isVisible, header, content } = props
+const { isVisible, header, content, title } = props
 
 </script>
 
@@ -18,6 +18,7 @@ const { isVisible, header, content } = props
             <div class="flex flex-col max-w-5xl rounded-lg shadow-lg bg-white">
                 <div class="p-5">
                     <div class="flex justify-between items-start">
+                        {{ title }}
                         <component :is="header" />
                         <button class="p-1 leading-none" @click="emitCancel">
                             <div class="text-xl font-semibold h-6 w-6">

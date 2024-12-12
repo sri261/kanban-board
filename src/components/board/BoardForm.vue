@@ -3,13 +3,14 @@ import { defineProps, defineEmits, ref } from 'vue'
 
 
 const props = defineProps({
-    onCancel: Function
+    onCancel: Function,
+    title: String
 })
 const emit = defineEmits(['onCreate'])
 
 const { onCancel } = props
 
-const title = ref('')
+const title = ref(props.title || '')
 
 const onSubmit = () => {
     emit('onCreate', title.value)
