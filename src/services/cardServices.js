@@ -18,3 +18,13 @@ export const createCard = async (data) => {
     console.log(error);
   }
 };
+
+export const deleteCard = async (card_id) => {
+  try {
+    return await api
+      .delete(`/api/card/${card_id}`)
+      .then(extractStandardResponse);
+  } catch (error) {
+    console.log(error);
+  }
+};

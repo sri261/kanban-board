@@ -6,7 +6,7 @@ import { deleteColumn, editColumn } from '../services/columnService'
 import CardLoadingSkeleton from '../components/CardLoadingSkeleton.vue'
 import Modal from './modal/Modal.vue';
 import CardForm from './CardForm.vue';
-import { createCard } from '@/services/cardServices';
+import { createCard, deleteCard } from '@/services/cardServices';
 
 const props = defineProps({
     data: Object,
@@ -50,6 +50,11 @@ const onModalCancel = () => visible.value = false
 
 const onAddClick = () => visible.value = true
 
+const onCardDelete = (card_id) => {
+    deleteCard(card_id).then(() => {
+        props.refreshColumns()
+    }).catch(() => { })
+}
 
 </script>
 
@@ -68,7 +73,7 @@ const onAddClick = () => visible.value = true
         </div>
         <div class="mt-4">
             <CardLoadingSkeleton v-if="cardsLoading" />
-            <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" />
+            <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" @onDelete="onCardDelete" />
             <button @click="onAddClick"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full">
                 Add Task
