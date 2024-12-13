@@ -1,9 +1,12 @@
 <script setup>
 import Card from './Card.vue';
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { Icon } from '@iconify/vue';
 import { deleteColumn, editColumn } from '../services/columnService'
 import CardLoadingSkeleton from '../components/CardLoadingSkeleton.vue'
+import Modal from './modal/Modal.vue';
+import CardForm from './CardForm.vue';
+import { createCard } from '@/services/cardServices';
 
 const props = defineProps({
     data: Object,
@@ -16,6 +19,7 @@ const { id, title, cards } = props.data || {};
 const editTitle = ref(title || '')
 const showEditTitle = ref(false)
 const cardsLoading = ref(false)
+const visible = ref(false)
 
 
 
@@ -35,6 +39,18 @@ const onBlur = () => {
 
 }
 
+const handleCreate = (values) => {
+    createCard({ ...values, position: 20, column_id: id }).then((res) => {
+        props.refreshColumns()
+    }).catch(() => { })
+
+}
+
+const onModalCancel = () => visible.value = false
+
+const onAddClick = () => visible.value = true
+
+
 </script>
 
 <template>
@@ -53,6 +69,16 @@ const onBlur = () => {
         <div class="mt-4">
             <CardLoadingSkeleton v-if="cardsLoading" />
             <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" />
+            <button @click="onAddClick"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full">
+                Add Task
+            </button>
         </div>
     </div>
+
+    <Modal @cancel="onModalCancel" :isVisible="visible" :key="visible" title="Create Task" :content="CardForm">
+        <template #content="{ onCancel }">
+            <CardForm :onCancel="onCancel" @onCreate="handleCreate" />
+        </template>
+    </Modal>
 </template>

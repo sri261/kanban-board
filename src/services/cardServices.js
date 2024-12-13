@@ -10,3 +10,11 @@ export const getCards = async (column_id) => {
     console.log(error);
   }
 };
+
+export const createCard = async (data) => {
+  try {
+    return await api.post(`/api/card`, data).then(extractStandardResponse);
+  } catch (error) {
+    console.log(error);
+  }
+};
