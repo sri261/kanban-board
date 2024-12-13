@@ -6,7 +6,7 @@ import { deleteColumn, editColumn } from '../services/columnService'
 import CardLoadingSkeleton from '../components/CardLoadingSkeleton.vue'
 import Modal from './modal/Modal.vue';
 import CardForm from './CardForm.vue';
-import { createCard, deleteCard } from '@/services/cardServices';
+import { createCard, deleteCard, editCard } from '@/services/cardServices';
 
 const props = defineProps({
     data: Object,
@@ -20,6 +20,8 @@ const editTitle = ref(title || '')
 const showEditTitle = ref(false)
 const cardsLoading = ref(false)
 const visible = ref(false)
+const isCardEditing = ref(false)
+const cardValues = ref(null)
 
 
 
@@ -39,14 +41,23 @@ const onBlur = () => {
 
 }
 
-const handleCreate = (values) => {
-    createCard({ ...values, position: 20, column_id: id }).then((res) => {
-        props.refreshColumns()
-    }).catch(() => { })
 
+const onModalCancel = () => {
+    visible.value = false
+    isCardEditing.value = false
+    cardValues.value = null
 }
 
-const onModalCancel = () => visible.value = false
+const handleCreate = async (values) => {
+    try {
+        isCardEditing.value ? await editCard(values.id, values) : await createCard({ ...values, position: 20, column_id: id })
+        props.refreshColumns()
+        onModalCancel()
+    } catch (error) {
+
+    }
+}
+
 
 const onAddClick = () => visible.value = true
 
@@ -54,6 +65,12 @@ const onCardDelete = (card_id) => {
     deleteCard(card_id).then(() => {
         props.refreshColumns()
     }).catch(() => { })
+}
+
+const onCardEdit = (data) => {
+    isCardEditing.value = true
+    visible.value = true
+    cardValues.value = data
 }
 
 </script>
@@ -73,7 +90,8 @@ const onCardDelete = (card_id) => {
         </div>
         <div class="mt-4">
             <CardLoadingSkeleton v-if="cardsLoading" />
-            <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" @onDelete="onCardDelete" />
+            <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" @onDelete="onCardDelete"
+                @onEdit="onCardEdit" />
             <button @click="onAddClick"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full">
                 Add Task
@@ -81,9 +99,10 @@ const onCardDelete = (card_id) => {
         </div>
     </div>
 
-    <Modal @cancel="onModalCancel" :isVisible="visible" :key="visible" title="Create Task" :content="CardForm">
+    <Modal @cancel="onModalCancel" :isVisible="visible" :key="visible"
+        :title="isCardEditing ? 'Edit Task' : 'Create Task'" :content="CardForm">
         <template #content="{ onCancel }">
-            <CardForm :onCancel="onCancel" @onCreate="handleCreate" />
+            <CardForm :onCancel="onCancel" @onCreate="handleCreate" :values="cardValues" />
         </template>
     </Modal>
 </template>

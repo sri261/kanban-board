@@ -28,3 +28,13 @@ export const deleteCard = async (card_id) => {
     console.log(error);
   }
 };
+
+export const editCard = async (card_id, data) => {
+  try {
+    return await api
+      .put(`/api/card/${card_id}`, data)
+      .then(extractStandardResponse);
+  } catch (error) {
+    console.log(error);
+  }
+};
