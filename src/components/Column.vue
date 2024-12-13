@@ -92,10 +92,12 @@ const onCardEdit = (data) => {
             <CardLoadingSkeleton v-if="cardsLoading" />
             <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" @onDelete="onCardDelete"
                 @onEdit="onCardEdit" />
-            <button @click="onAddClick"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full">
-                Add Task
-            </button>
+            <div class="flex justify-center">
+                <button @click="onAddClick"
+                    class="text-sm bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-10 rounded">
+                    Add Task
+                </button>
+            </div>
         </div>
     </div>
 
