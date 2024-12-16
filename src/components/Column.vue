@@ -76,7 +76,7 @@ const onCardEdit = (data) => {
 </script>
 
 <template>
-    <div class="flex flex-col bg-gray-100 rounded-lg p-4 min-w-[250px] mt-4">
+    <div class="flex flex-col bg-gray-100 rounded-lg p-4 min-w-[250px] w-[250px] mt-4">
         <div class="flex justify-between content-between">
             <input v-if="showEditTitle" type="text"
                 class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
