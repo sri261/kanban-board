@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "lodash": "^4.17.21",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.2",

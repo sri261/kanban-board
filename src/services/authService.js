@@ -33,6 +33,22 @@ export const refresh = async () => {
   }
 };
 
+export const signup = async ({ name, email, password }) => {
+  try {
+    await api.post("/api/signup", { name, email, password }).then((res) => {
+      const {
+        data: { access_token, refresh_token },
+      } = res;
+      api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+
+      return extractStandardResponse(res);
+    });
+    router.push("/boards");
+  } catch (error) {}
+};
+
 export const checkIfTokenExists = () => {
   return !!localStorage.getItem("access_token");
 };

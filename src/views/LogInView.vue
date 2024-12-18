@@ -40,6 +40,11 @@ const onSubmit = () => {
                     </button>
                 </div>
             </form>
+            <div class="flex justify-center mt-4">
+                <a href="/signup" class="text-blue-500 hover:text-blue-700 ">
+                    Create an Account.
+                </a>
+            </div>
         </div>
     </div>
 </template>
