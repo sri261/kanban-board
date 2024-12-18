@@ -5,6 +5,9 @@ import { ref, onMounted } from 'vue'
 import ColumnLoadingSkeleton from '../components/ColumnLoadingSkeleton.vue'
 import { useRoute } from 'vue-router'
 import { getBoard } from '@/services/boardsServices';
+import {
+  useDragAndDrop
+} from "@formkit/drag-and-drop/vue";
 
 const columns = ref([])
 const title = ref('')
@@ -30,15 +33,21 @@ onMounted(() => {
   fetchColumns()
 })
 
-
+const [
+  parent,
+  draggableColumns] =
+  useDragAndDrop(columns);
 </script>
 
 <template>
   <h2 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight p-4">{{ title }}</h2>
   <div class="flex gap-4 overflow-x-auto p-4">
-    <ColumnLoadingSkeleton v-if="loading" v-for="index in 4" :key="index" />
-    <Column v-else v-for="(column, index) in columns" :key="'column-' + index" :data="column"
-      :refreshColumns="fetchColumns" />
+    <div class="flex gap-4" ref="parent">
+      <ColumnLoadingSkeleton v-if="loading" v-for="index in 4" :key="index" />
+      <div v-else v-for="draggableColumn in draggableColumns" :key="draggableColumn">
+        <Column :data="draggableColumn" :refreshColumns="fetchColumns" />
+      </div>
+    </div>
     <AddColumn :refreshColumns="fetchColumns" :board_id="board_id" />
   </div>
 </template>

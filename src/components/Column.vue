@@ -1,5 +1,4 @@
 <script setup>
-import Card from './Card.vue';
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue';
 import { deleteColumn, editColumn } from '../services/columnService'
@@ -7,6 +6,7 @@ import CardLoadingSkeleton from '../components/CardLoadingSkeleton.vue'
 import Modal from './modal/Modal.vue';
 import CardForm from './CardForm.vue';
 import { createCard, deleteCard, editCard } from '@/services/cardServices';
+import { useDragAndDrop } from "@formkit/drag-and-drop/vue";
 
 const props = defineProps({
     data: Object,
@@ -73,6 +73,8 @@ const onCardEdit = (data) => {
     cardValues.value = data
 }
 
+const [parent, draggableCards] = useDragAndDrop(cards);
+
 </script>
 
 <template>
@@ -88,10 +90,29 @@ const onCardEdit = (data) => {
                 <Icon icon="material-symbols:delete-sharp" />
             </button>
         </div>
-        <div class="mt-4">
-            <CardLoadingSkeleton v-if="cardsLoading" />
-            <Card v-else v-for="(card, index) in cards" :key="'Card' + index" :data="card" @onDelete="onCardDelete"
-                @onEdit="onCardEdit" />
+        <div>
+            <div class="mt-4" ref="parent">
+                <CardLoadingSkeleton v-if="cardsLoading" />
+
+                <!----------------- Card ------------------->
+                <div v-else v-for="(card, index) in draggableCards" :key="'Card' + index"
+                    class="bg-white p-4 mb-4 rounded-lg shadow-md text-gray-800">
+                    <div class="flex justify-between">
+                        <h3 class="font-semibold text-lg">{{ card.title }} </h3>
+                        <div>
+                            <button @click="onCardEdit" class="hover:bg-gray-400 text-gray-800 font-bold px-2 rounded">
+                                <Icon icon="material-symbols-light:edit-square-rounded" />
+                            </button>
+                            <button @click="onCardDelete"
+                                class="hover:bg-gray-400 text-gray-800 font-bold px-2 rounded">
+                                <Icon icon="material-symbols:delete-sharp" />
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">{{ card.description }}</p>
+                </div>
+                <!------------------------------------>
+            </div>
             <div class="flex justify-center">
                 <button @click="onAddClick"
                     class="text-sm bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-10 rounded">
@@ -99,6 +120,7 @@ const onCardEdit = (data) => {
                 </button>
             </div>
         </div>
+
     </div>
 
     <Modal @cancel="onModalCancel" :isVisible="visible" :key="visible"

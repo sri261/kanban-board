@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.2.6",
     "axios": "^1.7.7",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
