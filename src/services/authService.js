@@ -49,7 +49,7 @@ export const signup = async ({ name, email, password }) => {
     });
     router.push("/boards");
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
