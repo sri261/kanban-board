@@ -14,7 +14,9 @@ export const login = async ({ email, password }) => {
       return extractStandardResponse(res);
     });
     router.push("/boards");
-  } catch (error) {}
+  } catch (error) {
+    return error;
+  }
 };
 
 export const logout = async () => {
@@ -46,7 +48,9 @@ export const signup = async ({ name, email, password }) => {
       return extractStandardResponse(res);
     });
     router.push("/boards");
-  } catch (error) {}
+  } catch (error) {
+    return error;
+  }
 };
 
 export const checkIfTokenExists = () => {

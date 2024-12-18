@@ -1,12 +1,34 @@
 <script setup>
 import { ref } from 'vue';
 import { login } from "../services/authService.js"
+import { z } from 'zod'
+import { get } from 'lodash'
 
-const email = ref('')
-const password = ref('')
 
-const onSubmit = () => {
-    login({ email: email.value, password: password.value })
+const fields = ref({ email: '', password: "", })
+const errors = ref({})
+
+
+const loginValidator = z.object({
+    email: z.string().email().min(1, "Email is required"),
+    password: z.string().min(1, "Password is required"),
+})
+
+
+const onSubmit = async () => {
+    try {
+        const validatedFields = loginValidator.parse(fields.value);
+        await login(validatedFields)
+        errors.value = {}
+    } catch (err) {
+        const mappedErrors = get(err, 'errors', []).reduce((acc, error) => {
+            error.path.forEach(path => {
+                acc[path] = error.message;
+            });
+            return acc;
+        }, {});
+        errors.value = mappedErrors
+    }
 }
 </script>
 
@@ -23,15 +45,21 @@ const onSubmit = () => {
                 </div>
                 <div>
                     <label for="email" class="block text-base font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" id="email"
+                    <input type="text" name="email" id="email"
                         class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        v-model="email" />
+                        v-model="fields.email" />
+                    <div v-if="errors.email" class="font-semibold text-sm text-red-500 mt-2">
+                        {{ errors.email }}
+                    </div>
                 </div>
                 <div>
                     <label for="password" class="block text-base font-medium text-gray-700 mb-1">Password</label>
                     <input type="password" name="password" id="password"
                         class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        v-model="password" />
+                        v-model="fields.password" />
+                    <div v-if="errors.password" class="font-semibold text-sm text-red-500 mt-2">
+                        {{ errors.password }}
+                    </div>
                 </div>
                 <div>
                     <button type="submit"

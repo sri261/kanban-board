@@ -11,9 +11,9 @@ const errors = ref({})
 
 const signupValidator = z.object({
     name: z.string().min(2).max(30),
-    email: z.string().email(),
-    password: z.string(),
-    confirmPassword: z.string()
+    email: z.string().email().min(1, 'Email is required'),
+    password: z.string().min(1, 'Password is required'),
+    confirmPassword: z.string().min(1, 'Password confirmation is required')
 }).refine((data) => data.password === data.confirmPassword, {
     validation: 'password',
     message: "Passwords don't match",
@@ -24,16 +24,15 @@ const signupValidator = z.object({
 const onSubmit = async () => {
     try {
         const validatedFields = signupValidator.parse(fields.value);
-        signup(validatedFields)
+        await signup(validatedFields)
+        errors.value = {}
     } catch (err) {
-
         const mappedErrors = get(err, 'errors', []).reduce((acc, error) => {
             error.path.forEach(path => {
                 acc[path] = error.message;
             });
             return acc;
         }, {});
-
         errors.value = mappedErrors
     }
 };
