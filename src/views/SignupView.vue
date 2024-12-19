@@ -3,7 +3,6 @@ import { signup } from '@/services/authService';
 import { ref } from 'vue';
 import { z } from 'zod'
 import { get } from 'lodash'
-import { toast } from "vue3-toastify";
 
 const fields = ref({ name: '', email: '', password: "", confirmPassword: '' })
 
@@ -28,14 +27,6 @@ const onSubmit = async () => {
         await signup(validatedFields)
         errors.value = {}
     } catch (err) {
-        if (err.response.status === 400) {
-            toast(get(err, 'response.data.error'), {
-                "type": "error",
-                "position": "top-center",
-                "dangerouslyHTMLString": true
-            })
-            return
-        }
         const mappedErrors = get(err, 'errors', []).reduce((acc, error) => {
             error.path.forEach(path => {
                 acc[path] = error.message;

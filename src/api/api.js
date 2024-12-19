@@ -1,6 +1,8 @@
 import { refresh } from "@/services/authService";
 import axios from "axios";
 import router from "../router";
+import { get } from "lodash";
+import { toast } from "vue3-toastify";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -39,6 +41,20 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(err);
+  }
+);
+
+api.interceptors.response.use(
+  (res) => res,
+  async (err) => {
+    if (get(err, "response.status") === 400) {
+      toast(get(err, "response.data.error"), {
+        type: "error",
+        position: "top-center",
+        dangerouslyHTMLString: true,
+      });
+    }
+    return err;
   }
 );
 
