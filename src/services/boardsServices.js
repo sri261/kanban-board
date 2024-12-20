@@ -2,19 +2,17 @@ import { api, extractStandardResponse } from "../api/api.js";
 
 export const getBoards = async (user_id) => {
   try {
-    const res = await api
-      .get(`/boards/${user_id}`)
-      .then(extractStandardResponse);
+    const res = await api.get(`/boards`).then(extractStandardResponse);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const addBoard = async ({ user_id, title }) => {
+export const addBoard = async ({ title }) => {
   try {
     const res = await api
-      .post(`/board`, { title, user_id })
+      .post(`/board`, { title })
       .then(extractStandardResponse);
     return res;
   } catch (error) {

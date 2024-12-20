@@ -5,10 +5,9 @@ import BoardCard from '../components/board/BoardCard.vue'
 import AddBoard from '../components/board/AddBoard.vue'
 const boards = ref([])
 
-const user_id = 15
 
 const fetchBoards = () => {
-    getBoards(user_id).then((res) => {
+    getBoards().then((res) => {
         boards.value = res
     }).catch((error) => {
     })
